@@ -36,6 +36,8 @@ jobs:
             echo "⚠️  CONFIG_YAML secret not set, using example"
             cp config/config.yaml.example config/config.yaml
           fi
+          echo "📋 Config contents:"
+          cat config/config.yaml | head -20
 
       - name: Set up Gmail credentials
         env:
