@@ -19,10 +19,10 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
 from core.observability import log
+from core.config import load_config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR = Path(__file__).resolve().parent / "templates"
-CONFIG_FILE = BASE_DIR / "config" / "delivery_config.json"
 CREDENTIALS_DIR = BASE_DIR / ".credentials"
 TOKEN_FILE = CREDENTIALS_DIR / "gmail_token.json"
 CREDENTIALS_FILE = CREDENTIALS_DIR / "gmail_credentials.json"
@@ -35,19 +35,16 @@ SCOPES = [
 
 
 def load_delivery_config():
-    """Load delivery configuration."""
-    if CONFIG_FILE.exists():
-        with open(CONFIG_FILE) as f:
-            return json.load(f)
+    """Load delivery configuration from centralized config.yaml."""
+    config = load_config()
+    email_config = config.get("email", {})
 
-    # Default config
+    # Return in the format expected by deliver_briefing
     return {
-        "enabled": False,
-        "recipient_email": "",
-        "sender_email": "",
-        "smtp_server": "smtp.gmail.com",
-        "smtp_port": 587,
-        "frequency": "weekly"
+        "enabled": email_config.get("enabled", False),
+        "recipient_email": email_config.get("recipient_email", ""),
+        "send_day": email_config.get("send_day", "Monday"),
+        "send_time": email_config.get("send_time", "09:00")
     }
 
 
