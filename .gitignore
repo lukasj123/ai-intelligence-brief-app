@@ -1,0 +1,52 @@
+# Environment variables
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Logs
+logs/
+*.log
+!logs/.gitkeep
+
+# Data files (may contain private content)
+data/*.json
+!data/.gitkeep
+
+# Gmail credentials (NEVER commit these!)
+.credentials/
+*.json
+!config/*.json.example
+!config/example.yaml
+
+# Config files (contain personal email and settings)
+config/config.yaml
+config/delivery_config.json
+config/control_config.json
+config/briefing_config.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Working documents
+PROJECT_CANON.md
+
+# Streamlit
+.streamlit/

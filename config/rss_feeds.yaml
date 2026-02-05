@@ -1,0 +1,181 @@
+# RSS feeds by source type (maps to ingestion_policy.py)
+
+rss_feeds:
+  "OpenAI":
+    url: "https://openai.com/blog/rss/"
+    type: frontier_lab
+
+  "Anthropic":
+    url: "https://www.anthropic.com/rss.xml"
+    type: frontier_lab
+
+  "DeepMind":
+    url: "https://deepmind.google/blog/rss.xml"
+    type: frontier_lab
+
+  "Google AI":
+    url: "https://blog.google/technology/ai/rss/"
+    type: frontier_lab
+
+
+  #Corporate research organizations (curated research output)
+  "Microsoft Research":
+    url: "https://www.microsoft.com/en-us/research/feed/"
+    type: corporate_research
+
+  "Amazon Science":
+    url: "https://www.amazon.science/rss.xml"
+    type: corporate_research
+
+
+  #Vendor / platform blogs (product- and benchmark-driven)
+  "NVIDIA":
+    url: "https://blogs.nvidia.com/blog/category/artificial-intelligence/feed/"
+    type: vendor_blog
+
+
+  #US federal government & regulators
+  "White House":
+    url: "https://www.whitehouse.gov/briefing-room/feed/"
+    type: press_release
+
+  "NIST":
+    url: "https://www.nist.gov/news-events/news/rss.xml"
+    type: press_release
+
+  "HHS":
+    url: "https://www.hhs.gov/about/news/rss/index.xml"
+    type: press_release
+
+  "FDA":
+    url: "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml"
+    type: press_release
+
+  "FTC":
+    url: "https://www.ftc.gov/news-events/press-releases/rss"
+    type: press_release
+
+
+  #US state & local policy
+  "California AG":
+    url: "https://oag.ca.gov/news/rss"
+    type: press_release
+
+  "California Legislature":
+    url: "https://leginfo.legislature.ca.gov/faces/rssFeeds.xhtml"
+    type: press_release
+
+  "New York State":
+    url: "https://www.governor.ny.gov/news/rss.xml"
+    type: press_release
+
+  "Massachusetts":
+    url: "https://www.mass.gov/rss"
+    type: press_release
+
+
+  #Research & preprint aggregators
+  "Papers with Code":
+    url: "https://paperswithcode.com/rss/"
+    type: research_journal
+
+  "arXiv AI":
+    url: "http://export.arxiv.org/rss/cs.AI"
+    type: research_journal
+
+  "arXiv ML":
+    url: "http://export.arxiv.org/rss/cs.LG"
+    type: research_journal
+
+
+  #Industry analysis & expert newsletters
+  "SemiAnalysis":
+    url: "https://semianalysis.com/feed/"
+    type: analysis_newsletter
+
+  "Stratechery":
+    url: "https://stratechery.com/feed/"
+    type: analysis_newsletter
+
+
+  #News & journalism
+  "The Information":
+    url: "https://www.theinformation.com/feed?category=artificial-intelligence"
+    type: news
+
+  "Financial Times":
+    url: "https://www.ft.com/technology?format=rss"
+    type: news
+
+  "Bloomberg":
+    url: "https://www.bloomberg.com/feeds/topics/artificial-intelligence.xml"
+    type: news
+
+  "STAT":
+    url: "https://www.statnews.com/tag/artificial-intelligence/feed/"
+    type: news
+
+
+  #Policy, regulation & civil society
+  "EU AI Act":
+    url: "https://artificialintelligenceact.eu/feed/"
+    type: policy_org
+
+  "Brookings":
+    url: "https://www.brookings.edu/topic/technology-policy/feed/"
+    type: policy_org
+
+  "EFF":
+    url: "https://www.eff.org/rss/updates.xml"
+    type: policy_org
+
+  "Aspen Institute":
+    url: "https://www.aspeninstitute.org/tag/artificial-intelligence/feed/"
+    type: policy_org
+
+  "Data & Society":
+    url: "https://datasociety.net/feed/"
+    type: policy_org
+
+  "Nonprofit Quarterly":
+    url: "https://nonprofitquarterly.org/tag/artificial-intelligence/feed/"
+    type: policy_org
+
+
+  #Open-source & developer communities
+
+  "PyTorch":
+    url: "https://pytorch.org/feed.xml"
+    type: community_blog
+
+
+  #Healthcare & medical research journals
+  "Health Affairs":
+    url: "https://www.healthaffairs.org/topic/artificial-intelligence/feed"
+    type: research_journal
+
+  "JAMA":
+    url: "https://jamanetwork.com/rss/site_20/mostrecentarticles.aspx"
+    type: research_journal
+
+  "Nature Medicine":
+    url: "https://www.nature.com/nm.rss"
+    type: research_journal
+
+
+  #Mental & behavioral health
+  "NIMH":
+    url: "https://www.nimh.nih.gov/news/rss"
+    type: press_release
+
+  "APA":
+    url: "https://www.psychiatry.org/newsroom/rss"
+    type: press_release
+
+  "SAMHSA":
+    url: "https://www.samhsa.gov/newsroom/rss"
+    type: press_release
+
+  "Behavioral Health Business":
+    url: "https://bhbusiness.com/feed/"
+    type: news

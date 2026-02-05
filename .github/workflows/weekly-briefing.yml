@@ -1,0 +1,71 @@
+name: Weekly AI News Briefing
+
+on:
+  # Run every Monday at 9 AM UTC (adjust to your timezone)
+  schedule:
+    - cron: '0 9 * * 1'
+
+  # Allow manual triggering for testing
+  workflow_dispatch:
+
+jobs:
+  generate-and-send-briefing:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Set up Gmail credentials
+        env:
+          GMAIL_CREDENTIALS: ${{ secrets.GMAIL_CREDENTIALS }}
+          GMAIL_TOKEN: ${{ secrets.GMAIL_TOKEN }}
+        run: |
+          mkdir -p .credentials
+          echo "$GMAIL_CREDENTIALS" > .credentials/gmail_credentials.json
+          echo "$GMAIL_TOKEN" > .credentials/gmail_token.json
+
+      - name: Run Gmail ingestion
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          python -m ingest.gmail
+          echo "✓ Gmail ingestion complete"
+
+      - name: Run RSS ingestion
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          python -m ingest.rss
+          echo "✓ RSS ingestion complete"
+
+      - name: Run analysis pipeline
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          LOOKBACK_DAYS: ${{ secrets.LOOKBACK_DAYS || '7' }}
+          ANALYZER_INSTRUCTIONS: ${{ secrets.ANALYZER_INSTRUCTIONS }}
+          REVIEWER_FOCUS: ${{ secrets.REVIEWER_FOCUS }}
+        run: |
+          python briefing_pipeline.py
+          echo "✓ Analysis complete"
+
+      - name: Complete pipeline output
+        run: |
+          echo "✓ Pipeline complete! Briefing sent via Gmail API."
+
+      - name: Upload logs as artifact
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: briefing-logs
+          path: logs/
+          retention-days: 30
