@@ -36,8 +36,9 @@ jobs:
             echo "⚠️  CONFIG_YAML secret not set, using example"
             cp config/config.yaml.example config/config.yaml
           fi
-          echo "📋 Config contents:"
-          cat config/config.yaml | head -20
+          echo "📋 Checking email config..."
+          python3 -c "import yaml; c=yaml.safe_load(open('config/config.yaml')); print(f\"email.enabled: {c.get('email', {}).get('enabled', 'NOT FOUND')}\")"
+          python3 -c "import yaml; c=yaml.safe_load(open('config/config.yaml')); print(f\"email.recipient_email: {c.get('email', {}).get('recipient_email', 'NOT FOUND')}\")"
 
       - name: Set up Gmail credentials
         env:
