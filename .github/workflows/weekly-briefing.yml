@@ -1,15 +1,16 @@
-name: Weekly AI News Briefing
+name: AI News Briefing Pipeline
 
 on:
-  # Run every Monday at 9 AM UTC (adjust to your timezone)
+  # Scheduled run (adjust schedule based on your frequency setting)
   schedule:
-    - cron: '0 9 * * 1'
+    - cron: '0 9 * * 1'  # Monday at 9 AM UTC (for weekly briefings)
+    # For daily briefings, use: '0 9 * * *'
 
-  # Allow manual triggering for testing
+  # Allow manual triggering
   workflow_dispatch:
 
 jobs:
-  generate-and-send-briefing:
+  run-briefing-pipeline:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,8 +23,19 @@ jobs:
           python-version: '3.10'
 
       - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Create config from template
+        env:
+          CONFIG_YAML: ${{ secrets.CONFIG_YAML }}
         run: |
-          pip install -r requirements.txt
+          if [ -n "$CONFIG_YAML" ]; then
+            echo "$CONFIG_YAML" > config/config.yaml
+            echo "✓ Config loaded from secret"
+          else
+            echo "⚠️  CONFIG_YAML secret not set, using example"
+            cp config/config.yaml.example config/config.yaml
+          fi
 
       - name: Set up Gmail credentials
         env:
@@ -31,38 +43,23 @@ jobs:
           GMAIL_TOKEN: ${{ secrets.GMAIL_TOKEN }}
         run: |
           mkdir -p .credentials
-          echo "$GMAIL_CREDENTIALS" > .credentials/gmail_credentials.json
-          echo "$GMAIL_TOKEN" > .credentials/gmail_token.json
+          echo "$GMAIL_CREDENTIALS" | base64 -d > .credentials/gmail_credentials.json
+          echo "$GMAIL_TOKEN" | base64 -d > .credentials/gmail_token.json
+          echo "✓ Gmail credentials configured"
 
-      - name: Run Gmail ingestion
+      - name: Create .env file
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          python -m ingest.gmail
-          echo "✓ Gmail ingestion complete"
+          echo "OPENAI_API_KEY=$OPENAI_API_KEY" > .env
+          echo "✓ Environment configured"
 
-      - name: Run RSS ingestion
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: |
-          python -m ingest.rss
-          echo "✓ RSS ingestion complete"
-
-      - name: Run analysis pipeline
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          LOOKBACK_DAYS: ${{ secrets.LOOKBACK_DAYS || '7' }}
-          ANALYZER_INSTRUCTIONS: ${{ secrets.ANALYZER_INSTRUCTIONS }}
-          REVIEWER_FOCUS: ${{ secrets.REVIEWER_FOCUS }}
+      - name: Run complete pipeline
         run: |
           python briefing_pipeline.py
-          echo "✓ Analysis complete"
+          echo "✓ Pipeline complete!"
 
-      - name: Complete pipeline output
-        run: |
-          echo "✓ Pipeline complete! Briefing sent via Gmail API."
-
-      - name: Upload logs as artifact
+      - name: Upload logs
         if: always()
         uses: actions/upload-artifact@v3
         with:
