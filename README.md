@@ -10,9 +10,13 @@ I wanted personalized AI news briefings without the noise. The system:
 2. **Extracts** factual claims using GPT-4o-mini
 3. **Verifies** claims by checking if sources contradict each other
 4. **Synthesizes** everything into a short briefing with source citations
-5. **Delivers** via email on a schedule (I run it weekly)
+5. **Delivers** via email on a schedule (I run it daily)
 
 The key insight: instead of trying to fact-check claims against some universal truth, I just ask "do the sources I'm reading disagree with each other?" This catches contested claims without needing external verification. This is probably more appropriate for the newsletters or RSS feeds that may contain speculative info.
+
+## Screenshot of a daily brief
+
+<img width="1085" height="760" alt="Screenshot 2026-02-05 at 10 02 32 AM" src="https://github.com/user-attachments/assets/4172f1b3-927c-4038-a881-4ca73fa289e9" />
 
 ## Why I built this
 
